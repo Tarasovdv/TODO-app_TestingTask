@@ -11,7 +11,7 @@ import ru.buttonone.todoApp.utils.Props;
 import static ru.buttonone.todoApp.constants.TestValue.APP_PROP;
 
 public class Spec {
-    private static final String BASE_URI = Props.getProperty(APP_PROP, "base-url");
+    public static final String BASE_URI = Props.getProperty(APP_PROP, "base-url");
 
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
