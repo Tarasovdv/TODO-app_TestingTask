@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ru.buttonone.todoApp.constants.TestValue.*;
+import static constants_test.TestValue.*;
 
 public class TestData {
 

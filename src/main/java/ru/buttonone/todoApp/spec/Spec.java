@@ -8,9 +8,8 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import ru.buttonone.todoApp.utils.Props;
 
-import static ru.buttonone.todoApp.constants.TestValue.APP_PROP;
-
 public class Spec {
+    public static final String APP_PROP = "application.properties";
     public static final String BASE_URI = Props.getProperty(APP_PROP, "base-url");
 
     public static RequestSpecification requestSpec() {
