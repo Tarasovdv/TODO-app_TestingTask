@@ -1,12 +1,11 @@
-package ru.buttonone.todoApp.constants;
+package constants_test;
 
 import java.math.BigInteger;
 
 import static ru.buttonone.todoApp.utils.Props.getProperty;
 
-public class TestValue {
+public abstract class TestValue {
     public static final String APP_PROP = "application.properties";
-    private static final String CREDENTIALS_PROP = "credentials.properties";
     public static final BigInteger FIRST_TASK_ID = new BigInteger(getProperty(APP_PROP, "first-task-id"));
     public static final BigInteger SECOND_TASK_ID = new BigInteger(getProperty(APP_PROP, "second-task-id"));
     public static final BigInteger THIRD_TASK_ID = new BigInteger(getProperty(APP_PROP, "third-task-id"));
@@ -19,8 +18,6 @@ public class TestValue {
     public final static String FOURTH_TASK_TEXT = getProperty(APP_PROP, "fourth-task-text");
     public final static String FIFTH_TASK_TEXT = getProperty(APP_PROP, "fifth-task-text");
     public final static String SIXTH_TASK_TEXT = getProperty(APP_PROP, "sixth-task-text");
-    public final static String USERNAME = getProperty(CREDENTIALS_PROP, "username");
-    public final static String PASSWORD = getProperty(CREDENTIALS_PROP, "password");
     public final static BigInteger FILTER_MIN_ALLOW_VALUE = new BigInteger(getProperty(APP_PROP, "filter-minimum-allow-value"));
     public final static BigInteger FILTER_MAX_ALLOW_VALUE = new BigInteger(getProperty(APP_PROP, "filter-maximum-allow-value"));
     public final static BigInteger FILTER_LESS_MIN_ALLOW_VALUE = new BigInteger(getProperty(APP_PROP, "filter-less-minimum-allow-value"));

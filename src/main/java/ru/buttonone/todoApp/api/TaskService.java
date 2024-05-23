@@ -21,9 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.buttonone.todoApp.constants.Endpoints.TODO;
 import static ru.buttonone.todoApp.constants.Endpoints.TODO_BY_ID;
+import static ru.buttonone.todoApp.constants.Headers.BASIC_AUTHORIZATION;
 import static ru.buttonone.todoApp.constants.HttpStatusCode.*;
-import static ru.buttonone.todoApp.constants.TestValue.PASSWORD;
-import static ru.buttonone.todoApp.constants.TestValue.USERNAME;
 import static ru.buttonone.todoApp.spec.Spec.BASE_URI;
 
 @Slf4j
@@ -43,7 +42,6 @@ public class TaskService {
 
         return false;
     }
-
 
     @Step("Отправка запроса на добавление задачи")
     public TaskService addNewTask(Task newTask) {
@@ -186,7 +184,6 @@ public class TaskService {
         return List.of(response.getBody().as(Task[].class));
     }
 
-
     @Step("Отправка запроса на получение Status Code при изменении задачи")
     public int getStatusCodeUpdateTasks(Task task, Task updateTask) {
         log.info("Запрос на получение Status Code");
@@ -224,7 +221,7 @@ public class TaskService {
         if (checkTaskExistById(task)) {
             given()
                     .baseUri(BASE_URI)
-                    .auth().preemptive().basic(USERNAME, PASSWORD)
+                    .header(BASIC_AUTHORIZATION)
                     .log().method()
                     .pathParam("id", task.getId())
                     .when()
@@ -241,25 +238,8 @@ public class TaskService {
         }
     }
 
-    @Step("Отправка запроса на удаление задачи по id = {taskId}")
-    public TaskService cleanTaskData(Task task) {
-        log.info("CLEAN_TASK_DATA by ID = " + task.getId());
-        given()
-                .baseUri(BASE_URI)
-                .auth().preemptive().basic(USERNAME, PASSWORD)
-                .log().method()
-                .pathParam("id", task.getId())
-                .when()
-                .delete(TODO_BY_ID)
-                .then()
-                .statusCode(SUCCESS_DELETE.getCode());
-        log.info("CLEAN_TASK_DATA by ID = " + task.getId() + " -> SUCCESS");
-
-        return this;
-    }
-
     @Step("Проверка данных задачи")
-    public TaskService checkTaskData(Task expectTask) {
+    public void checkTaskData(Task expectTask) {
         log.info("Проверка данных задачи с ID = " + expectTask.getId());
         List<Task> taskList = getListAllTasks();
         Task actualTask = taskList.get(taskList.indexOf(expectTask));
@@ -276,38 +256,21 @@ public class TaskService {
                                 "\nExpect TASK STATUS = " + expectTask.getCompleted()));
 
         log.info("Проверка данных задачи с ID = " + expectTask.getId() + "-> SUCCESS");
-
-        return this;
     }
 
     public TaskService addAllTasks(List<Task> taskList) {
-        for (Task task : taskList) {
-            addNewTask(task);
-        }
+        taskList.forEach(this::addNewTask);
         return this;
     }
 
     public boolean checkAllTasks(List<Task> taskList) {
-        if (taskList.isEmpty()) {
-            return true;
-        } else {
-            for (Task task : taskList) {
-                checkTaskData(task);
-            }
-        }
+        if (taskList.isEmpty()) return true;
+        taskList.forEach(this::checkTaskData);
         return false;
     }
 
-
-    public TaskService clearAllTasks(List<Task> taskList) {
-        for (Task task : taskList) {
-            cleanTaskData(task);
-        }
-        return this;
-    }
-
     @Step("Проверка структуры данных о задаче id = {petId}")
-    public TaskService checkJsonScheme(Task task, String filePath) {
+    public void checkJsonScheme(Task task, String filePath) {
         log.info("Отправка запроса для Проверки структуры данных о задаче ID = " + task.getId());
         given()
                 .spec(REQUEST_SPEC)
@@ -321,7 +284,5 @@ public class TaskService {
                 .body(matchesJsonSchema(new File(filePath)));
 
         log.info("Проверка структуры данных о задаче ID" + task.getId() + " -> SUCCESS");
-
-        return this;
     }
 }

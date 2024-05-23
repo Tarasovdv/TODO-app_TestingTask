@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.buttonone.todoApp.constants.HttpStatusCode.SUCCESS_REQ;
 
 @Isolated
-public class TodoAppTest {
+public class TodoAppTest extends BaseTest {
     private final TaskService taskService = new TaskService();
 
     @DisplayName("Добавление новой задачи")
@@ -26,8 +26,7 @@ public class TodoAppTest {
     public void addNewTask(Task newTask) {
         taskService
                 .addNewTask(newTask)
-                .checkTaskData(newTask)
-                .cleanTaskData(newTask);
+                .checkTaskData(newTask);
     }
 
     @DisplayName("Вывод списка всех задач")
@@ -39,7 +38,6 @@ public class TodoAppTest {
                 .addAllTasks(taskList)
                 .getAllTasks()
                 .checkAllTasks(taskList);
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Изменение описания задачи")
@@ -51,8 +49,7 @@ public class TodoAppTest {
                 .addNewTask(task)
                 .getAllTasks()
                 .updateTask(task, updateTask)
-                .checkTaskData(updateTask)
-                .cleanTaskData(updateTask);
+                .checkTaskData(updateTask);
     }
 
     @DisplayName("Изменение статуса задачи")
@@ -64,8 +61,7 @@ public class TodoAppTest {
                 .addNewTask(task)
                 .getAllTasks()
                 .updateTask(task, updateTask)
-                .checkTaskData(updateTask)
-                .cleanTaskData(updateTask);
+                .checkTaskData(updateTask);
     }
 
     @DisplayName("Изменение идентификатора задачи")
@@ -77,8 +73,7 @@ public class TodoAppTest {
                 .addNewTask(task)
                 .getAllTasks()
                 .updateTask(task, updateTask)
-                .checkTaskData(updateTask)
-                .cleanTaskData(updateTask);
+                .checkTaskData(updateTask);
     }
 
     @DisplayName("Удаление задачи")
@@ -102,7 +97,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         assertTrue(taskService.checkAllTasks(taskService.getLimitTasks(limit)));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр limit = {3}")
@@ -116,7 +110,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getLimitTasks(limit));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр limit = {2}")
@@ -130,7 +123,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getLimitTasks(limit));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр limit = {4}")
@@ -144,7 +136,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getLimitTasks(limit));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр offset = {0}")
@@ -158,7 +149,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getOffsetTasks(offset));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр offset = {3}")
@@ -172,7 +162,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         assertTrue(taskService.checkAllTasks(taskService.getOffsetTasks(offset)));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр offset = {2}")
@@ -186,7 +175,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getOffsetTasks(offset));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр offset = {4}")
@@ -200,7 +188,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         assertTrue(taskService.checkAllTasks(taskService.getOffsetTasks(offset)));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Вывод задач. Фильтр limit = {3}. Фильтр offset = {2}")
@@ -215,7 +202,6 @@ public class TodoAppTest {
                 "Actual Status Code = " + actualStatusCode
                         + "\nExpect Status Code = " + SUCCESS_REQ.getCode());
         taskService.checkAllTasks(taskService.getLimitAndOffsetTasks(limit, offset));
-        taskService.clearAllTasks(taskList);
     }
 
     @DisplayName("Проверка структуры данных о задаче")
@@ -225,8 +211,7 @@ public class TodoAppTest {
     public void checkTaskScheme(Task newTask, String jsonSchemaPath) {
         taskService
                 .addNewTask(newTask)
-                .checkJsonScheme(newTask, jsonSchemaPath)
-                .cleanTaskData(newTask);
+                .checkJsonScheme(newTask, jsonSchemaPath);
     }
 
     @DisplayName("Отправить запрос на добавление новой задачи с идентификатором минимального допустимого значения")
@@ -236,8 +221,7 @@ public class TodoAppTest {
     public void addNewTaskWithMinAllowValueId(Task newTask) {
         taskService
                 .addNewTask(newTask)
-                .checkTaskData(newTask)
-                .cleanTaskData(newTask);
+                .checkTaskData(newTask);
     }
 
     @DisplayName("Отправить запрос на добавление новой задачи с идентификатором максимального допустимого значения")
@@ -247,7 +231,6 @@ public class TodoAppTest {
     public void addNewTaskWithMaxAllowValueId(Task newTask) {
         taskService
                 .addNewTask(newTask)
-                .checkTaskData(newTask)
-                .cleanTaskData(newTask);
+                .checkTaskData(newTask);
     }
 }
